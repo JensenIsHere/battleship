@@ -57,6 +57,6 @@ test("isSunk returns true when all hits registered", () => {
 
 test("isSunk returns false when ship is partially damaged", () => {
   let carrier = ship.Ship(1, "carrier", 5, [0, 0], "h");
-  for (let i = 1; i < 5; i++) carrier.hit([0, i]);
+  for (let i = 0; i < 4; i++) carrier.hit([0, i]);
   expect(carrier.status().isSunk).toBe(false);
 });

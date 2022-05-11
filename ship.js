@@ -39,7 +39,7 @@ const Ship = (playerNum, sName, size, sCoord, sOrient) => {
   };
 
   const checkSunk = () => {
-    for (let i = 0; i > hits.length; i++) {
+    for (let i = 0; i < hits.length; i++) {
       if (hits[i] == 0) return isSunk;
     }
     isSunk = true;
