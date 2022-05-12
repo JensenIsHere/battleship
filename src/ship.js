@@ -1,4 +1,4 @@
-const Ship = (playerNum, sName, size, sCoord, sOrient) => {
+const Ship = (sName, size, sCoord, sOrient) => {
   if (sCoord[0] < 0 || sCoord[1] < 0) return false;
 
   const setFootprint = (size, coord, orient) => {
@@ -11,26 +11,23 @@ const Ship = (playerNum, sName, size, sCoord, sOrient) => {
     return arr;
   };
 
-  const player = playerNum;
   const shipName = sName;
   const footprint = setFootprint(size, sCoord, sOrient);
   const hits = Array(size).fill(0);
   let isSunk = false;
 
-  const status = () => {
-    return {
-      player: player,
-      ship: shipName,
-      footprint: footprint,
-      hits: hits,
-      isSunk: isSunk,
-    };
-  };
+  const name = () => name;
 
-  const hit = (coord) => {
+  const loc = () => footprint;
+
+  const dmg = () => hits;
+
+  const sunk = () => isSunk;
+
+  const hit = (row, col) => {
     for (let i = 0; i < footprint.length; i++) {
-      if (footprint[i][0] == coord[0] && footprint[i][1] == coord[1]) {
-        hits[i] = coord;
+      if (footprint[i][0] == row && footprint[i][1] == col) {
+        hits[i] = [row, col];
         checkSunk();
         return hits;
       }
@@ -46,7 +43,7 @@ const Ship = (playerNum, sName, size, sCoord, sOrient) => {
     return isSunk;
   };
 
-  return { status, hit };
+  return { name, loc, dmg, sunk, hit };
 };
 
 module.exports = { Ship: Ship };
