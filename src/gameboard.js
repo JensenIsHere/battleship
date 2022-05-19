@@ -11,12 +11,24 @@ export const Gameboard = () => {
 
   const allShips = () => shipLoc;
 
+  const shipAtLoc = (loc) => {
+    for (let i = 0; i < shipLoc.length; i++) {
+      if (shipLoc[i].loc == loc) return shipLoc[i].ship;
+    }
+    return -1;
+  };
+
   const placeShip = (sName, size, loc, orient) => {
-    let spaceNeeded = new Array(0);
+    // Checks if ship will wrap horizontally
+    if ((loc % 10) + size - 1 > 9) return false;
+    let spaceNeeded = [];
     for (let i = 0; i < size; i++) {
       spaceNeeded.push(loc + (orient == "h" ? i : i * 10));
+      //Checks if the ship fits on board
+      if (spaceNeeded.at(-1) >= 100) return false;
     }
     for (let i = 0; i < shipLoc.length; i++) {
+      //Checks if another ship is in the way
       if (spaceNeeded.indexOf(shipLoc[i].loc) != -1) return false;
     }
     ships.push(Ship(sName, size));
@@ -32,13 +44,17 @@ export const Gameboard = () => {
   };
 
   const receiveAttack = (loc) => {
+    if (loc > 99 || loc < 0) return -1;
     for (let i = 0; i < shipLoc.length; i++) {
+      //Check to see if it hit anything
       if (shipLoc[i].loc == loc) {
+        if (shipLoc[i].hit == true) return -1;
         ships[shipLoc[i].ship].hit(shipLoc[i].sector);
         shipLoc[i].hit = true;
         return true;
       }
     }
+    if (missList.indexOf(loc) != -1) return -1;
     missList.push(loc);
     return false;
   };
@@ -54,6 +70,7 @@ export const Gameboard = () => {
     shipList,
     misses,
     allShips,
+    shipAtLoc,
     placeShip,
     receiveAttack,
     allSunk,
