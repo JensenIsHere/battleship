@@ -9,7 +9,36 @@ import {
   deactivateBoard,
 } from "../board-control";
 
-export function initializeGameGrids() {}
+export function createGameArea() {
+  let docFrag = document.createDocumentFragment();
+  docFrag.appendChild(createAnnounceArea());
+  docFrag.appendChild(createPlayerArea("human"));
+  docFrag.appendChild(createPlayerArea("comp"));
+
+  return docFrag;
+}
+
+function createAnnounceArea() {
+  let announceArea = document.createElement("div");
+  announceArea.setAttribute("class", "announce");
+  return announceArea;
+}
+
+function createPlayerArea(type) {
+  let playerArea = document.createElement("div");
+  playerArea.setAttribute("class", "board-area");
+  let playerHead = document.createElement("div");
+  playerHead.setAttribute("class", "player-head");
+  playerArea.appendChild(playerHead);
+  playerArea.appendChild(makeBoard(type));
+
+  return playerArea;
+}
+
+export function setBoardNames(name1, name2) {
+  document.querySelectorAll(".player-head")[0].textContent = name1;
+  document.querySelectorAll(".player-head")[1].textContent = name2;
+}
 
 function checkSunk(loc, player) {
   // Checks if a ship was completely sunk and displays a message if true

@@ -18,7 +18,7 @@ import {
   delPlacementArea,
   placeTurn,
 } from "./phases/placement";
-import { initializeGameGrids, gameTurn } from "./phases/game";
+import { createGameArea, gameTurn, setBoardNames } from "./phases/game";
 import {
   clearBoard,
   showHits,
@@ -34,11 +34,10 @@ import {
 
 function startGame(pro, ant) {
   // Controller to remove player name entry and start the game
-  initializeGameGrids();
+  document.querySelector("main").appendChild(createGameArea());
   initComp(ant);
-  console.log("Comp init done");
-  console.log(pro.board.shipList()[0].name());
   showShips(HUMAN_SQUARES, pro.board.allShips());
+  setBoardNames(human.name(), comp.name());
   activateBoard(OPP_SQUARES);
 }
 
@@ -64,7 +63,7 @@ document.addEventListener("click", function (e) {
   } else if (e.target.classList.contains("start-game")) {
     let names = getPlayerNames();
     human = Player(names[0], false);
-    comp = Player(names[0], true);
+    comp = Player(names[1], true);
     delNameEntry();
     createPlacementArea();
     udpateCurShip(shipPlacer.curName());

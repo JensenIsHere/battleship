@@ -20,7 +20,7 @@ export const Gameboard = () => {
 
   const placeShip = (sName, size, loc, orient) => {
     // Checks if ship will wrap horizontally
-    if ((loc % 10) + size - 1 > 9) return false;
+    if ((loc % 10) + size - 1 > 9 && orient == "h") return false;
     let spaceNeeded = [];
     for (let i = 0; i < size; i++) {
       spaceNeeded.push(loc + (orient == "h" ? i : i * 10));

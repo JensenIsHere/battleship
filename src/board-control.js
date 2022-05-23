@@ -23,6 +23,7 @@ export function showHits(squares, allShips) {
     if (allShips[i].hit == true) {
       squares[allShips[i].loc].classList.add("hit");
       squares[allShips[i].loc].classList.remove("empty");
+      squares[allShips[i].loc].classList.remove("ship-loc");
     }
   }
 }
