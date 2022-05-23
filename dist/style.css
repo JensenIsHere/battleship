@@ -30,13 +30,19 @@ button {
   width: 100px;
 }
 
+.choose-area {
+  display: flex;
+  justify-content: center;
+}
+
 main {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 
-.player-head {
+.player-head,
+.choose-head {
   display: flex;
   align-items: center;
   justify-content: center;
