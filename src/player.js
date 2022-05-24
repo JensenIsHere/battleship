@@ -11,8 +11,10 @@ export const Player = (pName, type) => {
 
   const attack = (player, loc) => {
     if (playerType == false) {
+      // Human-only
       return player.board.receiveAttack(loc);
     }
+    // Computer-only
     let success;
     do {
       success = player.board.receiveAttack(Math.floor(Math.random() * 100));
@@ -20,10 +22,11 @@ export const Player = (pName, type) => {
     return success;
   };
 
-  // Fix this to align with the placeShip method in Gameboard,
-  // also add in random placement for computer players
   const place = (name, size, loc, orient) => {
-    if (playerType == false) return board.placeShip(name, size, loc, orient);
+    if (playerType == false)
+      // Human-only
+      return board.placeShip(name, size, loc, orient);
+    // Computer-only
     let rLoc;
     let rOrient;
     do {

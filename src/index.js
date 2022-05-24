@@ -1,17 +1,8 @@
 import { Player } from "./player";
-import {
-  SHIP_NAMES,
-  SHIP_SIZES,
-  HUMAN_SQUARES,
-  OPP_SQUARES,
-  PLACE_SQUARES,
-  HUMAN_NAME,
-  OPP_NAME,
-} from "./const";
+import { HUMAN_SQUARES, OPP_SQUARES } from "./const";
 import {
   createPlacementArea,
   initComp,
-  initHuman,
   ShipPlacer,
   udpateCurShip,
   switchFlipButton,
@@ -19,13 +10,7 @@ import {
   placeTurn,
 } from "./phases/placement";
 import { createGameArea, gameTurn, setBoardNames } from "./phases/game";
-import {
-  clearBoard,
-  showHits,
-  showShips,
-  showMisses,
-  activateBoard,
-} from "./board-control";
+import { showShips, activateBoard } from "./board-control";
 import {
   createNameEntry,
   getPlayerNames,
@@ -68,7 +53,4 @@ document.addEventListener("click", function (e) {
     createPlacementArea();
     udpateCurShip(shipPlacer.curName());
   } else if (e.target.classList.contains("flip")) switchFlipButton();
-
-  /*  else if (e.target.classList.contains("place"))
-    placeTurn(e.target.dataset.loc); */
 });

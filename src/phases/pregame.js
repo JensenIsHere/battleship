@@ -7,6 +7,7 @@ export function createNameEntry() {
 }
 
 function createPlayerTextBox(num, initial) {
+  // Area to enter a player's name
   let newUL = document.createElement("ul");
   newUL.classList.add("n-entry");
   let newLabel = document.createElement("label");
@@ -23,6 +24,7 @@ function createPlayerTextBox(num, initial) {
 }
 
 function createStartButton() {
+  // Button to begin game
   let start = document.createElement("button");
   start.setAttribute("class", "start-game");
   start.textContent = "Start";
@@ -30,11 +32,13 @@ function createStartButton() {
 }
 
 export function getPlayerNames() {
+  // To preserve names before wiping area
   let name1 = document.getElementById("p1").value;
   let name2 = document.getElementById("p2").value;
   return [name1, name2];
 }
 
 export function delNameEntry() {
+  // Deletes entire name entry area
   document.getElementsByClassName("start-area")[0].innerHTML = "";
 }

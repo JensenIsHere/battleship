@@ -1,15 +1,15 @@
-import { HUMAN_SQUARES, PLACE_SQUARES, SHIP_NAMES, SHIP_SIZES } from "../const";
+import { SHIP_NAMES, SHIP_SIZES } from "../const";
 import { makeBoard, showShips } from "../board-control";
 
 export function createPlacementArea() {
   let docFrag = document.createDocumentFragment();
-  let boardArea = document.createElement("div");
+  let boardArea = document.createElement("div"); // Enclosing div for board
   boardArea.setAttribute("class", "board-area");
-  let chooseText = document.createElement("div");
+  let chooseText = document.createElement("div"); // Displays current ship
   chooseText.setAttribute("class", "choose-text");
   boardArea.appendChild(chooseText);
   boardArea.appendChild(makeBoard("place"));
-  let flipButton = document.createElement("button");
+  let flipButton = document.createElement("button"); // Button to flip orient
   flipButton.setAttribute("class", "flip");
   flipButton.textContent = "Horizontal";
   boardArea.appendChild(flipButton);
@@ -25,10 +25,6 @@ export function initComp(player) {
       success = player.place(SHIP_NAMES[i], SHIP_SIZES[i]);
     } while ((success = false));
   }
-}
-
-export function initializeChooseGrid() {
-  document.getElementsByClassName("board")[0].appendChild(chooseGridCreator());
 }
 
 export function udpateCurShip(sName) {
@@ -53,30 +49,18 @@ export function delPlacementArea() {
 }
 
 export const ShipPlacer = () => {
-  const ships = [
-    { name: "Carrier", size: 5 },
-    { name: "Battleship", size: 4 },
-    { name: "Destroyer", size: 3 },
-    { name: "Submarine", size: 3 },
-    { name: "Patrol Boat", size: 2 },
-  ];
   let placeCount = 0;
 
   const resetCount = () => {
     placeCount = 0;
   };
-
-  const curName = () => ships[placeCount].name;
-
-  const curSize = () => ships[placeCount].size;
-
+  const curName = () => SHIP_NAMES[placeCount];
+  const curSize = () => SHIP_SIZES[placeCount];
   const nextShip = () => {
     placeCount += 1;
   };
-
-  const isDone = () => (placeCount == ships.length ? true : false);
-
-  const count = () => ships.length;
+  const isDone = () => (placeCount == SHIP_NAMES.length ? true : false);
+  const count = () => SHIP_NAMES.length;
 
   return { resetCount, curName, curSize, nextShip, isDone, count };
 };
@@ -91,9 +75,7 @@ export function placeTurn(player, shipPlacer, loc) {
     ) == true
   ) {
     shipPlacer.nextShip();
-    if (shipPlacer.isDone() == true) {
-      delPlacementArea();
-    } else {
+    if (shipPlacer.isDone() == false) {
       showShips(
         document.getElementsByClassName("place"),
         player.board.allShips()

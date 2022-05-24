@@ -1,4 +1,5 @@
 export function makeBoard(type) {
+  // Creates a board with squares of a class
   let newBoard = document.createElement("div");
   newBoard.setAttribute("class", "board");
   for (let i = 0; i < 100; i++) {
@@ -37,7 +38,7 @@ export function showShips(squares, allShips) {
 }
 
 export function showMisses(squares, misses) {
-  // Shows missed shots on the passed board
+  // Shows missed shots on the passed board squares
   for (let i = 0; i < misses.length; i++) {
     squares[misses[i]].classList.add("miss");
     squares[misses[i]].classList.remove("empty");
@@ -56,6 +57,7 @@ export function deactivateBoard(squares) {
 }
 
 export function changeDisplayNames(name1, name2) {
+  // Displays players' names above their respective boards
   console.log(`${name1}, ${name2}`);
   let nameFields = document.querySelectorAll(".player-head");
   nameFields[0].innerHTML = name1;
