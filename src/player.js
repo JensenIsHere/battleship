@@ -14,7 +14,7 @@ export const Player = (pName, type) => {
       // Human-only
       return player.board.receiveAttack(loc);
     }
-    // Computer-only
+    // Computer-only, attacks a random square
     let success;
     do {
       success = player.board.receiveAttack(Math.floor(Math.random() * 100));
@@ -26,7 +26,7 @@ export const Player = (pName, type) => {
     if (playerType == false)
       // Human-only
       return board.placeShip(name, size, loc, orient);
-    // Computer-only
+    // Computer-only, places ship in random positions until it succeeds
     let rLoc;
     let rOrient;
     do {

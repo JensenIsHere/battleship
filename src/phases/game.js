@@ -1,4 +1,4 @@
-import { HUMAN_SQUARES, OPP_SQUARES } from "../const";
+import { HUMAN_SQUARES, OPP_SQUARES, SHIP_NAMES } from "../const";
 import {
   makeBoard,
   clearBoard,
@@ -31,8 +31,22 @@ function createPlayerArea(type) {
   playerHead.setAttribute("class", "player-head");
   playerArea.appendChild(playerHead);
   playerArea.appendChild(makeBoard(type));
+  playerArea.appendChild(createShipList(type));
 
   return playerArea;
+}
+
+function createShipList(type) {
+  let listContainer = document.createElement("div");
+  listContainer.setAttribute("class", "ship-list");
+  for (let i = 0; i < SHIP_NAMES.length; i++) {
+    let shipDisplay = document.createElement("div");
+    shipDisplay.classList = `ship-alive ${type}`;
+    shipDisplay.setAttribute("data-i", i);
+    shipDisplay.textContent = SHIP_NAMES[i];
+    listContainer.appendChild(shipDisplay);
+  }
+  return listContainer;
 }
 
 export function setBoardNames(name1, name2) {
@@ -40,12 +54,27 @@ export function setBoardNames(name1, name2) {
   document.querySelectorAll(".player-head")[1].textContent = name2;
 }
 
-function checkSunk(loc, player) {
+export function startGame(pro, ant) {
+  // Controller to remove player name entry and start the game
+  document.querySelector("main").appendChild(createGameArea());
+  showShips(HUMAN_SQUARES, pro.board.allShips());
+  setBoardNames(pro.name(), ant.name());
+  activateBoard(OPP_SQUARES);
+}
+
+function checkSunk(index, player) {
   // Checks if a ship was completely sunk and displays a message if true
-  if (loc > -1 && player.board.shipList()[loc].isSunk() == true) {
-    console.log(
-      `You sunk ${player.name()}'s ${player.board.shipList()[loc].name()}!`
-    );
+  let hitShip = player.board.shipList()[index];
+  if (index > -1 && hitShip.isSunk() == true) {
+    console.log(`You sunk ${player.name()}'s ${hitShip.name()}!`);
+    let type = player.isComp() == false ? "human" : "comp";
+    let shipRoster = document.querySelectorAll(`.ship-alive.${type}`);
+    for (let i = 0; i < shipRoster.length; i++) {
+      if (shipRoster[i].dataset.i == index) {
+        shipRoster[i].classList = `ship-dead ${type}`;
+        break;
+      }
+    }
   }
 }
 

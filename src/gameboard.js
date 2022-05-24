@@ -23,14 +23,14 @@ export const Gameboard = () => {
     // Checks if ship will wrap horizontally
     if ((loc % 10) + size - 1 > 9 && orient == "h") return false;
     let spaceNeeded = [];
-    // Predicts where all ship sections will be
+    // Predicts where all ship sections will be located
     for (let i = 0; i < size; i++) {
       spaceNeeded.push(loc + (orient == "h" ? i : i * 10));
       //Checks if all predicted ship sections fit on board
       if (spaceNeeded.at(-1) >= 100) return false;
     }
     for (let i = 0; i < shipLoc.length; i++) {
-      //Checks if another ship is in the way
+      //Checks if another ship will be in the way
       if (spaceNeeded.indexOf(shipLoc[i].loc) != -1) return false;
     }
     ships.push(Ship(sName, size));

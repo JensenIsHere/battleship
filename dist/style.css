@@ -90,3 +90,11 @@ main {
 .place-ship {
   background-color: rgb(52, 167, 48);
 }
+
+.ship-alive {
+  color: #000;
+}
+
+.ship-dead {
+  color: #ddd;
+}
