@@ -8,6 +8,7 @@ import {
   activateBoard,
   deactivateBoard,
 } from "../board-control";
+import { createNameEntry } from "./pregame";
 
 export function createGameArea() {
   let docFrag = document.createDocumentFragment();
@@ -16,6 +17,10 @@ export function createGameArea() {
   docFrag.appendChild(createPlayerArea("comp"));
 
   return docFrag;
+}
+
+export function delGameArea() {
+  document.querySelector("main").innerHTML = "";
 }
 
 function createAnnounceArea() {
@@ -49,6 +54,13 @@ function createShipList(type) {
   return listContainer;
 }
 
+export function createResetButton() {
+  let reset = document.createElement("button");
+  reset.classList = "reset";
+  reset.textContent = "Play Again";
+  document.querySelector("main").appendChild(reset);
+}
+
 export function setBoardNames(name1, name2) {
   document.querySelectorAll(".player-head")[0].textContent = name1;
   document.querySelectorAll(".player-head")[1].textContent = name2;
@@ -66,14 +78,17 @@ function checkSunk(index, player) {
   // Checks if a ship was completely sunk and displays a message if true
   let hitShip = player.board.shipList()[index];
   if (index > -1 && hitShip.isSunk() == true) {
-    console.log(`You sunk ${player.name()}'s ${hitShip.name()}!`);
-    let type = player.isComp() == false ? "human" : "comp";
-    let shipRoster = document.querySelectorAll(`.ship-alive.${type}`);
-    for (let i = 0; i < shipRoster.length; i++) {
-      if (shipRoster[i].dataset.i == index) {
-        shipRoster[i].classList = `ship-dead ${type}`;
-        break;
-      }
+    removeShipFromList(index, player);
+  }
+}
+
+function removeShipFromList(index, player) {
+  let type = player.isComp() == false ? "human" : "comp";
+  let shipRoster = document.querySelectorAll(`.ship-alive.${type}`);
+  for (let i = 0; i < shipRoster.length; i++) {
+    if (shipRoster[i].dataset.i == index) {
+      shipRoster[i].classList = `ship-dead ${type}`;
+      break;
     }
   }
 }
@@ -98,11 +113,18 @@ export function gameTurn(pro, ant, loc) {
   if (checkWin(pro, ant) == false) {
     setTimeout(() => {
       ant.attack(pro);
+      shipHit = pro.board.shipAtLoc(loc);
+      checkSunk(shipHit, pro);
       clearBoard(HUMAN_SQUARES, "human");
       showMisses(HUMAN_SQUARES, pro.board.misses());
       showShips(HUMAN_SQUARES, pro.board.allShips());
       showHits(HUMAN_SQUARES, pro.board.allShips());
       if (checkWin(ant, pro) == false) activateBoard(OPP_SQUARES);
     }, "500");
-  }
+  } else createResetButton();
+}
+
+export function resetGame() {
+  delGameArea();
+  createNameEntry();
 }

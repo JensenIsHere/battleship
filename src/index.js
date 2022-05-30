@@ -8,7 +8,7 @@ import {
   delPlacementArea,
   placeTurn,
 } from "./phases/placement";
-import { gameTurn, startGame } from "./phases/game";
+import { gameTurn, startGame, resetGame } from "./phases/game";
 import {
   createNameEntry,
   getPlayerNames,
@@ -30,6 +30,7 @@ document.addEventListener("click", function (e) {
   else if (e.target.classList.contains("place")) {
     placeTurn(human, shipPlacer, loc);
     if (shipPlacer.isDone() == true) {
+      shipPlacer.resetCount();
       delPlacementArea();
       initComp(comp);
       startGame(human, comp);
@@ -42,4 +43,5 @@ document.addEventListener("click", function (e) {
     createPlacementArea();
     udpateCurShip(shipPlacer.curName());
   } else if (e.target.classList.contains("flip")) switchFlipButton();
+  else if (e.target.classList.contains("reset")) resetGame();
 });
